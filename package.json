@@ -9,11 +9,12 @@
   "author": "haubar <haubarclack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "serverless-google-cloudfunctions": "^1.1.0",
     "serverless-offline": "^5.12.1"
   },
   "dependencies": {
-    "mongoose": "^4.9.6",
+    "mongodb": "^3.4.1",
     "serverless-dotenv-plugin": "^2.1.1",
-    "serverless-google-cloudfunctions": "^1.1.0"
+    "serverless-google-cloudfunctions": "^2.3.3"
   }
 }
