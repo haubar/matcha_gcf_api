@@ -3,26 +3,30 @@
 require('dotenv').config()
 
 const MongoClient = require('mongodb').MongoClient
+const connectMongoDB = () => MongoClient.connect(process.env.DB_HOST, { useNewUrlParser: true })
+// const db = db.db(process.env.DB_DATABASE)
+    
 
-const client = new MongoClient(process.env.DB_HOST, { useNewUrlParser: true });
+// const client = new MongoClient(process.env.DB_HOST, { useNewUrlParser: true });
 
-connectMongoDB() = { 
-   return client.connect(err => {
-      const collection = client.db(process.env.DB_DATABASE).collection(process.env.DB_DEVICE)
-      client.close();
-    });
-}
+// connectMongoDB = () => { 
+//    return client.connect(err => {
+//       const collection = client.db(process.env.DB_DATABASE).collection(process.env.DB_DEVICE)
+//       client.close();
+//     });
+// }
 
 const getMatcha = (req, res) => {
   return connectMongoDB()
     .then(
-      db => db.db(process.env.DB_DATABASE)
-        .find({shortcode:res.params.code})
-        .toArray()
+      // db => db.db(process.env.DB_DATABASE),
+      db => db.db(process.env.DB_DATABASE).collection(process.env.DB_DEVICE)
+        .find({shortcode:req.query.code}).toArray()
         .then(data => ({db, data}))
     )
     .then(({db, data}) => {
-      db.close()
+      // db => db.db(process.env.DB_DATABASE),
+      // db.close()
       return data
     })
     .then(data => res.json(data))
@@ -31,13 +35,14 @@ const getMatcha = (req, res) => {
 const listMatcha = (req, res) => {
   return connectMongoDB()
     .then(
-      db => db.db(process.env.DB_DATABASE)
-        .find({}).limit(10).skip(0)
-        .toArray()
+      // db => db.db(process.env.DB_DATABASE),
+      db => db.db(process.env.DB_DATABASE).collection(process.env.DB_DEVICE)
+        .find().limit(10).skip(0).toArray()
         .then(data => ({db, data}))
     )
     .then(({db, data}) => {
-      db.close()
+      // db => db.db(process.env.DB_DATABASE),
+      // db.close()
       return data
     })
     .then(data => res.json(data))
@@ -58,10 +63,10 @@ const listMatcha = (req, res) => {
 exports.matcha = (req, res) => {
   switch (req.method) {
     case 'GET':
-      if(req.params.code){
-        getMatcha(req, res)
+      if(req.query.code){
+        return getMatcha(req, res)
       }else{
-        listMatcha(req, res)
+        return listMatcha(req, res)
       }
       break;
     case 'PUT':
