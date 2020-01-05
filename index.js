@@ -63,6 +63,9 @@ const listMatcha = (req, res) => {
 exports.matcha = (req, res) => {
   switch (req.method) {
     case 'GET':
+      res.set('Access-Control-Allow-Origin', "*")
+      res.set('Access-Control-Allow-Methods', 'GET, POST')
+      // res.status(200).send('weeee')
       if(req.query.code){
         return getMatcha(req, res)
       }else{
