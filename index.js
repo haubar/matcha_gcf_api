@@ -33,11 +33,14 @@ const getMatcha = (req, res) => {
     .catch(err => res.status(400).send(err.toString()))
 }
 const listMatcha = (req, res) => {
+  let page = ( parseInt(req.query.page) * 12 )
+  
   return connectMongoDB()
     .then(
+      // 
       // db => db.db(process.env.DB_DATABASE),
       db => db.db(process.env.DB_DATABASE).collection(process.env.DB_DEVICE)
-        .find().limit(10).skip(0).toArray()
+        .find().limit(12).skip(page).toArray()
         .then(data => ({db, data}))
     )
     .then(({db, data}) => {
