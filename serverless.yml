@@ -2,7 +2,7 @@ service: matchakon-node-api # NOTE: Don't put the word "google" in here
 
 provider:
   name: google
-  runtime: nodejs10
+  runtime: nodejs12.x
   project: matchakon-api
   credentials: ${env:GOOGLE_APPLICATION_CREDENTIALS_PATH}.json 
 
